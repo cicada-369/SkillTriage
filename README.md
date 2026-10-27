@@ -360,7 +360,7 @@ The suite covers parsers (including a PyYAML cross-check), archive attacks
 family, context scoring, suppression, baseline, inventory, discovery, plugin
 normalisation and rules, intent policy, all report formats (including HTML
 injection and CSP hashing), the CLI, and a live audit of the artifacts installed
-on the machine (skipped when the directory is absent). It currently has 240
+on the machine (skipped when the directory is absent). It currently has 242
 tests.
 
 Install the test extras so the PyYAML cross-check runs:

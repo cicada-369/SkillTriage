@@ -74,9 +74,9 @@ Commands were run from `/home/ra/projects/SkillTriage` on 2026-10-26.
 
 ### Functional
 
-- `make test` — **240 tests, OK** (1 skipped on the system interpreter because
+- `make test` — **242 tests, OK** (1 skipped on the system interpreter because
   PyYAML is absent; the dev environment runs the cross-check).
-- With the dev environment (`.[test]`): **240 tests, OK**, including the PyYAML
+- With the dev environment (`.[test]`): **242 tests, OK**, including the PyYAML
   cross-check. With `SKILLTRIAGE_TEST_PLUGINS=1`: the six real-corpus tests pass.
 - `make compile` — clean; no `__pycache__` under `tests/fixtures/`.
 - `python tools/gen_rules_doc.py --check` — catalog current at **107 rules**.

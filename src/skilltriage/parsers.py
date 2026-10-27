@@ -22,6 +22,7 @@ from .models import ParseIssue, Severity
 
 MAX_FRONTMATTER_LINES = 5000
 MAX_DEPTH = 24
+MAX_JSON_DEPTH = 200
 MAX_VALUE_LENGTH = 200_000
 
 _NULLS = {"", "~", "null", "Null", "NULL"}
@@ -738,10 +739,49 @@ def parse_yaml_subset(text: str) -> tuple[dict[str, Any], list[ParseIssue]]:
     return data, parser.issues
 
 
+def _json_depth_exceeded(text: str, limit: int = MAX_JSON_DEPTH) -> bool:
+    """Count ``[]``/``{}`` nesting outside strings.
+
+    CPython's JSON scanner does not raise on every host for the same depth, so
+    enforce the bound before calling it. Brackets inside strings are ignored.
+    """
+    depth = 0
+    in_string = False
+    escaped = False
+    for char in text:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char in "[{":
+            depth += 1
+            if depth > limit:
+                return True
+        elif char in "]}":
+            depth = max(0, depth - 1)
+    return False
+
+
 def parse_json_text(text: str) -> tuple[dict[str, Any], list[ParseIssue]]:
     """Parse a JSON manifest and report duplicate keys."""
     issues: list[ParseIssue] = []
     duplicates: list[str] = []
+    if _json_depth_exceeded(text):
+        issues.append(
+            ParseIssue(
+                "TOO_DEEP",
+                f"JSON nesting exceeds {MAX_JSON_DEPTH} levels.",
+                None,
+                Severity.HIGH,
+            )
+        )
+        return {}, issues
 
     def hook(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         result: dict[str, Any] = {}

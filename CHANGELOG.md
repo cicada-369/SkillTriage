@@ -49,7 +49,7 @@ the project uses semantic versioning.
   `rules`, `validate-cases`.
 - Zero-install shell launcher, a reproducible `zipapp` build target, and a
   release workflow with checksums.
-- 240 tests, including parser cross-checks, archive and parser attacks, every
+- 242 tests, including parser cross-checks, archive and parser attacks, every
   rule family, plugin model and rules, intent policy, HTML injection and CSP,
   regression snapshots, all report formats, the CLI, and a live audit of
   installed artifacts when present.
@@ -85,7 +85,9 @@ the project uses semantic versioning.
   unpredictable temporary name.
 - Parser, config, inventory, baseline, and case-file loaders convert
   `ValueError`, `MemoryError`, and `UnicodeDecodeError` into typed errors; the
-  Python AST rules are per-file resilient and iterative.
+  Python AST rules are per-file resilient and iterative. JSON manifest nesting
+  is bounded at 200 levels before parsing, independent of the interpreter's
+  recursion behavior.
 - Declared intent is bound to a matching inventory content hash; the canonical
   hash includes size and file status; `--require-inventory` gates on a missing
   record.

@@ -193,6 +193,16 @@ class HostileInputTests(unittest.TestCase):
         self.assertIn("TOO_DEEP", codes(issues))
         self.assertEqual(data, {})
 
+    def test_normal_nested_json_parses(self):
+        data, issues = parse_json_text('{"a": {"b": [1, 2]}}')
+        self.assertEqual(data["a"]["b"], [1, 2])
+        self.assertNotIn("TOO_DEEP", codes(issues))
+
+    def test_json_brackets_inside_strings_do_not_count(self):
+        data, issues = parse_json_text('{"note": "[[[[[[[[[[ not nesting ]]]]]]]]]]"}')
+        self.assertNotIn("TOO_DEEP", codes(issues))
+        self.assertIn("not nesting", data["note"])
+
     def test_deeply_nested_toml_is_bounded(self):
         text = "value = " + "[" * 5000 + "]" * 5000
         _, issues = parse_toml_text(text)
