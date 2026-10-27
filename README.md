@@ -208,6 +208,8 @@ not gate.
 - **sarif** — SARIF 2.1.0. Every scanned file is an artifact with a
   `sha-256` hash; findings point at the artifact index and carry
   `properties.layer = "static"`, so they can be joined with other scanners.
+  Target-level findings (correlations, archive issues, inventory drift) point at
+  the primary manifest, because code scanning requires a physical location.
 - **html** — one self-contained, offline file. No scripts, styles, fonts, or
   images are loaded from the network; the inline stylesheet and script are
   covered by a Content-Security-Policy hash. Every field is escaped for control,
@@ -360,7 +362,7 @@ The suite covers parsers (including a PyYAML cross-check), archive attacks
 family, context scoring, suppression, baseline, inventory, discovery, plugin
 normalisation and rules, intent policy, all report formats (including HTML
 injection and CSP hashing), the CLI, and a live audit of the artifacts installed
-on the machine (skipped when the directory is absent). It currently has 242
+on the machine (skipped when the directory is absent). It currently has 243
 tests.
 
 Install the test extras so the PyYAML cross-check runs:

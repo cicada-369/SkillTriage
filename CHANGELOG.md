@@ -49,7 +49,7 @@ the project uses semantic versioning.
   `rules`, `validate-cases`.
 - Zero-install shell launcher, a reproducible `zipapp` build target, and a
   release workflow with checksums.
-- 242 tests, including parser cross-checks, archive and parser attacks, every
+- 243 tests, including parser cross-checks, archive and parser attacks, every
   rule family, plugin model and rules, intent policy, HTML injection and CSP,
   regression snapshots, all report formats, the CLI, and a live audit of
   installed artifacts when present.
@@ -83,6 +83,9 @@ the project uses semantic versioning.
   than any backtick run.
 - Reports, baselines, and inventory are written atomically with `0600` and an
   unpredictable temporary name.
+- SARIF results for target-level findings carry a physical location on the
+  primary manifest, so GitHub code scanning accepts the file; SARIF upload runs
+  once per commit rather than once per matrix job.
 - Parser, config, inventory, baseline, and case-file loaders convert
   `ValueError`, `MemoryError`, and `UnicodeDecodeError` into typed errors; the
   Python AST rules are per-file resilient and iterative. JSON manifest nesting

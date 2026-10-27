@@ -47,6 +47,8 @@ jobs:
           python -m skilltriage scan examples/risky-skill --no-config --fail-on none -o report.html
           python -m skilltriage scan --root tests/fixtures/plugins --no-config --artifacts plugins --fail-on none --format json > /dev/null
       - name: Upload SARIF
+        # One upload per commit is enough; avoid four identical analyses.
+        if: matrix.python-version == '3.13'
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: skilltriage.sarif

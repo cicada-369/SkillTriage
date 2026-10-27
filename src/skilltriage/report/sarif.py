@@ -72,10 +72,26 @@ def _run(result: AuditResult, report) -> dict:
     rules = [_rule_metadata(rule_id) for rule_id in rule_ids]
     rule_index = {rule["id"]: index for index, rule in enumerate(rules)}
 
+    file_paths = {item.path for item in result.files}
     artifact_paths: list[str] = []
     for finding in findings:
         if finding.path != "." and finding.path not in artifact_paths:
             artifact_paths.append(finding.path)
+
+    # GitHub code scanning requires a physical location on every result. A
+    # target-level finding (correlation, archive issue, inventory drift) has
+    # path ".", so attach it to the primary manifest, or the first file.
+    fallback_path = ""
+    if any(finding.path == "." or finding.path not in file_paths for finding in findings):
+        for candidate in ("SKILL.md", ".claude-plugin/plugin.json"):
+            if candidate in file_paths:
+                fallback_path = candidate
+                break
+        if not fallback_path and file_paths:
+            fallback_path = sorted(file_paths)[0]
+        if fallback_path and fallback_path not in artifact_paths:
+            artifact_paths.append(fallback_path)
+
     artifacts = []
     artifact_index: dict[str, int] = {}
     for path in artifact_paths:
@@ -107,21 +123,32 @@ def _run(result: AuditResult, report) -> dict:
                 "layer": "static",
             },
         }
-        if finding.path in artifact_index:
-            region: dict = {"startLine": finding.line or 1}
-            if finding.column:
+        location_path = finding.path if finding.path in artifact_index else fallback_path
+        if location_path and location_path in artifact_index:
+            region: dict = {
+                "startLine": finding.line
+                if finding.path == location_path and finding.line
+                else 1
+            }
+            if finding.column and finding.path == location_path:
                 region["startColumn"] = finding.column
             entry["locations"] = [
                 {
                     "physicalLocation": {
                         "artifactLocation": {
-                            "uri": finding.path,
-                            "index": artifact_index[finding.path],
+                            "uri": location_path,
+                            "index": artifact_index[location_path],
                         },
                         "region": region,
                     }
                 }
             ]
+            if finding.path != location_path:
+                entry["properties"]["finding_path"] = finding.path
+        else:
+            # No physical file to point at (an empty target). Keep the scan
+            # valid rather than uploading a result GitHub will reject.
+            continue
         if finding.suppressed:
             entry["suppressions"] = [
                 {

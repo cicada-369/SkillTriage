@@ -41,6 +41,24 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(result["properties"]["layer"], "static")
         self.assertIn("partialFingerprints", result)
         self.assertTrue(result["locations"])
+        for item in run["results"]:
+            self.assertTrue(item.get("locations"), item["ruleId"])
+
+    def test_sarif_attaches_target_level_findings_to_a_file(self):
+        report = audit_paths(
+            [FIXTURES / "malicious" / "credential_exfil"], self.options
+        )
+        payload = json.loads(render(report, "sarif", self.options))
+        run = payload["runs"][0]
+        chain = next(
+            item for item in run["results"] if item["ruleId"] == "AST01-EXFIL-CHAIN"
+        )
+        self.assertTrue(chain["locations"])
+        self.assertEqual(chain["properties"]["finding_path"], ".")
+        location = chain["locations"][0]["physicalLocation"]["artifactLocation"]
+        self.assertEqual(location["uri"], "SKILL.md")
+        for item in run["results"]:
+            self.assertTrue(item.get("locations"), item["ruleId"])
 
     def test_sarif_marks_suppressed_results(self):
         options = AuditOptions()
