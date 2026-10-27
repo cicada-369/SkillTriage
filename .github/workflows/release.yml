@@ -1,0 +1,79 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: build and publish release assets
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Configure required reviewers for this environment in the repository
+    # settings; the workflow cannot grant that approval itself.
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install test and build tooling
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[test]' build twine
+      - name: Test before publishing
+        run: |
+          python -m unittest discover -s tests -t . -v
+          python tools/gen_rules_doc.py --check
+          python -m compileall -q -x '(^|/)tests/fixtures/' src tests tools
+      - name: Verify the tag matches the package version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import os, tomllib
+          from pathlib import Path
+          tag = os.environ["TAG"].lstrip("v")
+          project = tomllib.loads(Path("pyproject.toml").read_text())["project"]
+          version = project["version"]
+          assert tag == version, f"tag {tag!r} != pyproject version {version!r}"
+          namespace = {}
+          exec(Path("src/skilltriage/__init__.py").read_text(), namespace)
+          assert namespace["__version__"] == version
+          changelog = Path("CHANGELOG.md").read_text()
+          assert f"## [{version}]" in changelog
+          PY
+      - name: Build wheel and sdist
+        run: |
+          python -m build
+          python -m twine check dist/*
+      - name: Build reproducible zipapp
+        run: make zipapp
+      - name: Checksums
+        run: |
+          cd dist
+          sha256sum *.whl *.tar.gz skilltriage.pyz > SHA256SUMS
+          cat SHA256SUMS
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: |
+            dist/*.whl
+            dist/*.tar.gz
+            dist/skilltriage.pyz
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
+            dist/skilltriage.pyz
+            dist/SHA256SUMS
+          generate_release_notes: true

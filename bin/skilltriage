@@ -1,0 +1,24 @@
+#!/bin/sh
+# Portable launcher for a source checkout. Prefer `pipx install .` for a
+# managed install. PYTHONSAFEPATH prevents Python from importing modules out of
+# the current working directory, which may be an untrusted skill package.
+set -eu
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "skilltriage: python3 was not found on PATH" >&2
+    exit 2
+fi
+
+if ! python3 -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
+    echo "skilltriage: Python 3.11 or newer is required" >&2
+    exit 2
+fi
+
+here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+src="$here/../src"
+
+if [ -d "$src/skilltriage" ]; then
+    PYTHONSAFEPATH=1 PYTHONPATH="$src${PYTHONPATH:+:$PYTHONPATH}" exec python3 -m skilltriage "$@"
+fi
+
+exec python3 -m skilltriage "$@"

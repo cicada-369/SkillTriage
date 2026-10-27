@@ -1,0 +1,5 @@
+{
+  "name": "mcp-unpinned",
+  "version": "0.1.0",
+  "description": "Fixture with an unpinned MCP launch and a cleartext URL."
+}

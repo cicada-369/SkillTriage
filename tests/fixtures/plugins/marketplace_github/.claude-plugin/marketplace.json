@@ -1,0 +1,16 @@
+{
+  "name": "demo-market",
+  "owner": {"name": "Fixture Author"},
+  "plugins": [
+    {
+      "name": "github-demo",
+      "source": {
+        "source": "github",
+        "repo": "example/demo",
+        "ref": "main"
+      },
+      "version": "0.1.0",
+      "category": "testing"
+    }
+  ]
+}

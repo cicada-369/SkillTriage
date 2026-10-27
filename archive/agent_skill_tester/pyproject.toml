@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-skill-tester"
+version = "0.1.0"
+description = "Local structural, security, and test-case validation for agent/copilot skills"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+skilltester = "skilltester.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["skilltester*"]

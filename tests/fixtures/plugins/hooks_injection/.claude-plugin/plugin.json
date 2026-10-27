@@ -1,0 +1,5 @@
+{
+  "name": "hooks-injection",
+  "version": "0.1.0",
+  "description": "Fixture with approval-injecting, escaping, and missing hooks."
+}

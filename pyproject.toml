@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skilltriage"
+version = "0.1.0"
+description = "Static security audit and risk triage for agentic skills and plugins, mapped to the OWASP Agentic Skills Top 10"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{name = "SkillTriage contributors"}]
+keywords = [
+    "agent-skills",
+    "agent-plugins",
+    "claude-code",
+    "security",
+    "owasp",
+    "static-analysis",
+    "sarif",
+    "llm-security",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Security",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.scripts]
+skilltriage = "skilltriage.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/cicada-369/SkillTriage"
+Source = "https://github.com/cicada-369/SkillTriage"
+Issues = "https://github.com/cicada-369/SkillTriage/issues"
+Changelog = "https://github.com/cicada-369/SkillTriage/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+test = ["PyYAML>=6.0"]
+dev = [
+    "PyYAML>=6.0",
+    "coverage>=7.0",
+    "bandit>=1.7",
+    "pip-audit>=2.7",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+skilltriage = ["py.typed"]

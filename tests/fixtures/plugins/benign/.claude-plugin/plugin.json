@@ -1,0 +1,10 @@
+{
+  "name": "demo-plugin",
+  "version": "1.2.3",
+  "description": "A benign fixture plugin used by the test suite.",
+  "author": {"name": "Fixture Author"},
+  "license": "Apache-2.0",
+  "commands": ["./commands/"],
+  "agents": ["./agents/"],
+  "skills": ["./skills/"]
+}

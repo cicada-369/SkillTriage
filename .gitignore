@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local audit output
+reports/*.json
+reports/*.md
+reports/*.sarif
+!reports/.gitkeep
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local baselines and inventory
+.skilltriage-baseline.json
+skilltriage-inventory.json
+
+# Local audit output (not distributed)
+reports/*.txt
+reports/*.markdown
+reports/*.html
+reports/*.htm

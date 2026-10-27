@@ -1,0 +1,82 @@
+[
+  {
+    "baselined": false,
+    "confidence": "high",
+    "evidence": "SKILL.md, skill.json",
+    "line": null,
+    "path": ".",
+    "rule_id": "AST10-MULTIPLE-MANIFESTS",
+    "severity": "info",
+    "suppressed": false
+  },
+  {
+    "baselined": false,
+    "confidence": "high",
+    "evidence": "expected one of: SKILL.yaml, SKILL.yml, agent-skill.json, agent-skill.yaml, agent-skill.yml, skill.yaml, skill.yml",
+    "line": null,
+    "path": ".",
+    "rule_id": "AST10-NO-UNIVERSAL-FORMAT",
+    "severity": "info",
+    "suppressed": false
+  },
+  {
+    "baselined": false,
+    "confidence": "medium",
+    "evidence": "present in SKILL.md; absent in skill.json",
+    "line": null,
+    "path": ".",
+    "rule_id": "AST10-PROPERTY-LOSS",
+    "severity": "high",
+    "suppressed": false
+  },
+  {
+    "baselined": false,
+    "confidence": "medium",
+    "evidence": "64 characters of body text",
+    "line": null,
+    "path": "SKILL.md",
+    "rule_id": "AST04-TINY-SKILL",
+    "severity": "info",
+    "suppressed": false
+  },
+  {
+    "baselined": false,
+    "confidence": "medium",
+    "evidence": "approval fields: absent",
+    "line": null,
+    "path": "SKILL.md",
+    "rule_id": "AST09-NO-APPROVAL",
+    "severity": "low",
+    "suppressed": false
+  },
+  {
+    "baselined": false,
+    "confidence": "low",
+    "evidence": "audit/logging terms: absent",
+    "line": null,
+    "path": "SKILL.md",
+    "rule_id": "AST09-NO-AUDIT-LOG",
+    "severity": "info",
+    "suppressed": false
+  },
+  {
+    "baselined": false,
+    "confidence": "high",
+    "evidence": "author: absent",
+    "line": null,
+    "path": "SKILL.md",
+    "rule_id": "AST09-NO-OWNER",
+    "severity": "low",
+    "suppressed": false
+  },
+  {
+    "baselined": false,
+    "confidence": "high",
+    "evidence": "scan_status: absent",
+    "line": null,
+    "path": "SKILL.md",
+    "rule_id": "AST09-NO-SCAN-STATUS",
+    "severity": "info",
+    "suppressed": false
+  }
+]

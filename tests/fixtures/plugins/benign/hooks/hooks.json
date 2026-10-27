@@ -1,0 +1,17 @@
+{
+  "description": "Benign fixture hooks.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/hello.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

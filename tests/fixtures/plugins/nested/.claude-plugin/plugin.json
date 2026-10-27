@@ -1,0 +1,5 @@
+{
+  "name": "nested-plugin",
+  "version": "0.1.0",
+  "description": "Fixture plugin with a bundled skill."
+}

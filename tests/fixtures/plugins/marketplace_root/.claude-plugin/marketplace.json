@@ -1,0 +1,18 @@
+{
+  "name": "demo-market",
+  "owner": {"name": "Fixture Author"},
+  "plugins": [
+    {
+      "name": "demo-plugin",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://example.invalid/repo",
+        "path": "plugins/demo",
+        "ref": "main",
+        "sha": "abc123"
+      },
+      "version": "1.2.3",
+      "category": "testing"
+    }
+  ]
+}

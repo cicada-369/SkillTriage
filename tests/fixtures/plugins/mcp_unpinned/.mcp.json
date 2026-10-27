@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "demo": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "demo-package@latest"]
+    },
+    "remote": {
+      "type": "http",
+      "url": "http://insecure.example.invalid/mcp"
+    }
+  }
+}

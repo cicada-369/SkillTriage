@@ -1,0 +1,31 @@
+SkillTriage
+===========
+
+Copyright 2026 SkillTriage contributors
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the LICENSE file for the
+specific language governing permissions and limitations under the License.
+
+OWASP attribution
+-----------------
+This tool maps its findings to the risk taxonomy of the OWASP Agentic Skills
+Top 10 project:
+
+    https://github.com/OWASP/www-project-agentic-skills-top-10
+
+The OWASP project's documentation is licensed under CC BY-SA 4.0. This tool
+does not reproduce its text; it references the control identifiers (AST01-AST10)
+and writes its own descriptions, rationales, and remediation guidance. The
+AST identifier names and taxonomy are attributed to that project.
+
+Where a rule's guidance overlaps with an OWASP checklist item, the rule catalog
+in docs/OWASP-MAPPING.md records the corresponding control. Any redistribution
+of OWASP-derived content must comply with CC BY-SA 4.0.

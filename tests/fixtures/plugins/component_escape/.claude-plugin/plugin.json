@@ -1,0 +1,6 @@
+{
+  "name": "escape-demo",
+  "version": "0.1.0",
+  "description": "Fixture that declares an escaping component path.",
+  "skills": ["../../outside", "C:/outside", "skills/real"]
+}
